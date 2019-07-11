@@ -1,4 +1,8 @@
 /* 给 body,html设置样式 */
+* {
+    margin: 0;
+    padding: 0;
+}
 body {
     background-color: #324152;
 }
