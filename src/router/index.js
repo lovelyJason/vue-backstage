@@ -15,24 +15,6 @@ import Reports from '../components/reports/reports.vue'
 import Test from '../components/test/test.vue'
 
 Vue.use(Router)
-// 添加一个路由守卫
-router.beforeEach((to, from, next) => {
-  // 完成登录逻辑
-  // 只要请求的路由不是 login 就需要进行登录验证
-  if (to.path != '/login') {
-    // 判断是否存在  token
-    if (!window.localStorage.getItem('token')) {
-      console.log(window.localStorage.getItem('token'))
-      Message({
-        type: 'error',
-        message: '您还没有登录'
-      })
-      router.push('/login')
-      return
-    } 
-  }
-  next()
-})
 
 // export const constantRouterMap = [
 //   { path:'/',component: Login }
@@ -42,7 +24,7 @@ router.beforeEach((to, from, next) => {
 //   { path: '/text',component: Test,name:'权限测试',meta:{roles:['admin',super_editor]} }
 // ]
 
-export default new Router({
+var router = new Router({
   routes: [
     { path: '/login', name: 'login', component: Login },// 登录的路由
     { path: '/', redirect:'/home' },
@@ -62,3 +44,24 @@ export default new Router({
 
   // routes: constantRouterMap
 })
+
+// 添加一个路由守卫
+router.beforeEach((to, from, next) => {
+  // 完成登录逻辑
+  // 只要请求的路由不是 login 就需要进行登录验证
+  if (to.path != '/login') {
+    // 判断是否存在  token
+    if (!window.localStorage.getItem('token')) {
+      console.log(window.localStorage.getItem('token'))
+      Message({
+        type: 'error',
+        message: '您还没有登录'
+      })
+      router.push('/login')
+      return
+    } 
+  }
+  next()
+})
+
+export default router
