@@ -1,6 +1,10 @@
-# my-project
+# vue-backstage
 
 > A Vue.js project
+
+<img width="1232" alt="image" src="https://github.com/lovelyJason/vue-backstage/assets/50656459/aae312e0-dff7-4939-8d1a-15833d370e91">
+
+入门Vue2的第一个后台管理系统， 用于账号管理，商品管理等功能
 
 ## Build Setup
 
