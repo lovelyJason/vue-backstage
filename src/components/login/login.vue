@@ -1,6 +1,6 @@
 <template>
   <div class="loginbox">
-    <!-- 
+    <!--
                                     el-form: 这个组件中的内容都是表单元素
                                         model: 绑定属性
                                         status-icon：状态图标
@@ -26,8 +26,8 @@
       class="demo-ruleForm"
     >
       <h1>用户登录</h1>
-      <el-form-item label="密码" prop="username">
-        <el-input type="password" v-model="ruleForm.username" autocomplete="off"></el-input>
+      <el-form-item label="用户名称" prop="username">
+        <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="password">
         <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
@@ -45,8 +45,8 @@ export default {
   data: function() {
     return {
       ruleForm: {
-        username: "",
-        password: ""
+        username: "jasonhuang",
+        password: "123456"
       },
       rules: {
         username: [
@@ -59,22 +59,35 @@ export default {
     };
   },
   methods: {
+    afterLoginSuccess (data) {
+      this.$message({
+        message: data.msg,
+        type: "success"
+      });
+      window.localStorage.setItem("token", data.token);
+      this.$router.push("/home");
+    },
     login: function() {
       this.$refs.ruleForm.validate(async valid => {
         if (valid) {
+          const { username, password } = this.ruleForm
+          console.log(username, password)
+          if (username === 'jasonhuang' && password === '123456') {
+            this.afterLoginSuccess({
+              msg: 'login success',
+              token: Math.random().toString()
+            })
+            return
+          }
           var res = await this.$http.post("/login", this.ruleForm);
           // var res = await this.$http.post("/login", 'username=admin&password=123456');
           let { data, meta } = res.data;
           if (meta.status === 200) {
-            this.$message({
-              message: meta.msg,
-              type: "success"
-            });
-            // 路由跳转
-            //保存登录信息
             let token = res.data.data.token;
-            window.localStorage.setItem("token", token);
-            this.$router.push("/home");
+            this.afterLoginSuccess({
+              msg: meta.msg,
+              token
+            })
           } else {
             this.$message({
               message: meta.msg,

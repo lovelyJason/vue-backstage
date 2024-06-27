@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { Message } from 'element-ui'
 // 引入 userElement 组件
 
 import Login from '../components/login/login.vue'
@@ -59,7 +60,7 @@ router.beforeEach((to, from, next) => {
       })
       router.push('/login')
       return
-    } 
+    }
   }
   next()
 })
